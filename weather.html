@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="bootstrap-5.2.3-dist/css/bootstrap.css">
+    <title>Weather App</title>
+</head>
+<style>
+    body {
+        background-image: url(How-Much-Does-a-Cloud-Weigh.webp);
+        background-size: cover;
+        background-repeat: no-repeat;
+    }
+
+    #inputcity {
+        background-color: transparent;
+        border-top: none;
+        border-left: none;
+        border-right: none;
+        text-align: center;
+        outline: none;
+    }
+
+    .contain {
+        text-align: center;
+        margin-top: 180px;
+    }
+
+    h1 {
+        text-align: center;
+        color: rgb(205, 223, 231);
+    }
+
+    #display {
+        width: 100px;
+        text-align: center;
+
+        color: rgb(8, 50, 131);
+        /* height: 300px; */
+    }
+</style>
+
+<body>
+    <div class="row">
+        <h1>Weather App</h1>
+        <div class="col-2">
+            <span>Location :</span>
+            <span id="one"></span>
+        </div>
+        <div class="col-2">
+            <span>Temprature :</span>
+            <span id="temp"> 0</span><sup>o</sup>C
+        </div>
+        <div class="contain  col-4">
+            <input type="text" placeholder="Enter your city" id="inputcity">
+            <button onclick="checkweather()" class="btn btn-info"> Check weather</button>
+            <div id="display" class="text-center  w-50 mt-4"></div>
+        </div>
+    </div>
+</body>
+
+
+
+
+
+
+<script>
+    function checkweather() {
+        let API_key = "c40e86961a68b721d460ea7fe1e1d322"
+        let cityName = inputcity.value
+        let date = new Date().toLocaleDateString()
+        let url = `https://api.openweathermap.org/data/2.5/weather?q=${cityName}&appid=${API_key}`
+
+        fetch(url)
+            .then((response) => {
+                return response.json()
+            })
+            .then((data) => {
+                console.log(data)
+                display.innerHTML += `latitude:  ${data.coord.lat} </br> <hr/>
+        longtitude:  ${data.coord.lon} </br> <hr/>
+        Temprature:  ${(data.main.temp / 10).toFixed(1)}<sup>o</sup>C</br> <hr/>
+        City Name : ${data.name} </br><hr/>
+        Date : ${date} `
+
+                one.innerHTML = `${data.name}`
+                temp.innerHTML = `${(data.main.temp / 10).toFixed(1)}`
+
+            })
+
+        display.innerHTML = ""
+
+        // .catch((err)=> {
+        //     console.log(err);
+        // })
+    }
+
+</script>
+
+</html>
